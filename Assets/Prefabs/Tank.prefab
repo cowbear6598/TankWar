@@ -279,8 +279,8 @@ MonoBehaviour:
     TypeName: Core.Unity.Game.GameLifetimeScope
   autoRun: 1
   autoInjectGameObjects: []
-  _data: {fileID: 11400000, guid: 93faf2032ea9021498a52e47cffe3dd3, type: 2}
-  _tankView: {fileID: 7024544448379600824}
+  _settings: {fileID: 11400000, guid: 93faf2032ea9021498a52e47cffe3dd3, type: 2}
+  _view: {fileID: 7024544448379600824}
 --- !u!1 &2637387800933793144
 GameObject:
   m_ObjectHideFlags: 0

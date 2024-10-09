@@ -7,7 +7,7 @@ namespace Core.Tank.Domain
 {
 	public class Tank : ITank
 	{
-		[Inject] private readonly TankScriptableObject _tankData;
+		[Inject] private readonly TankScriptableObject _tankSettings;
 
 		public Vector3    Position       { get; private set; } = Vector3.zero;
 		public Quaternion BodyRotation   { get; private set; } = Quaternion.identity;
@@ -15,14 +15,14 @@ namespace Core.Tank.Domain
 
 		public void Move(float axis, float deltaTime)
 		{
-			var moveDelta = BodyRotation * Vector3.forward * axis * _tankData.MoveSpeed * deltaTime;
+			var moveDelta = BodyRotation * Vector3.forward * axis * _tankSettings.MoveSpeed * deltaTime;
 
 			Position += moveDelta;
 		}
 
 		public void RotateBody(float axis, float deltaTime)
 		{
-			var angle = axis * _tankData.BodyRotateSpeed * deltaTime;
+			var angle = axis * _tankSettings.BodyRotateSpeed * deltaTime;
 
 			BodyRotation *= Quaternion.Euler(0, angle, 0);
 		}
@@ -36,7 +36,7 @@ namespace Core.Tank.Domain
 				return;
 
 			var targetRotation = Quaternion.LookRotation(targetDirection);
-			TurretRotation = Quaternion.RotateTowards(TurretRotation, targetRotation, _tankData.TurretRotateSpeed * deltaTime);
+			TurretRotation = Quaternion.RotateTowards(TurretRotation, targetRotation, _tankSettings.TurretRotateSpeed * deltaTime);
 		}
 	}
 }
