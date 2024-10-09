@@ -1,10 +1,13 @@
 ﻿using Core.Controller.Domain;
+using UnityEngine;
 using VContainer;
 
 namespace Core.Controller.Infrastructure
 {
-	public class ControllerService : IControllerService
+	public class Controller : IController
 	{
 		[Inject] private readonly PCInput _input;
+
+		public Vector2 MoveAxis => _input.MoveAxis;
 	}
 }
