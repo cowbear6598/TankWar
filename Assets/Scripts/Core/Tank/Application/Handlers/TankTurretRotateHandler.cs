@@ -22,6 +22,7 @@ namespace Core.Tank.Application.Handlers
 
 		public void Tick()
 		{
+			// TODO: Refactor this to use a camera adapter
 			var cam = Camera.main;
 
 			var mousePosition = _controller.MousePosition;
