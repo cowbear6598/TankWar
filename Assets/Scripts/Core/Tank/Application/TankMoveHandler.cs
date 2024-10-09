@@ -12,18 +12,17 @@ namespace Core.Tank.Application
 	public class TankMoveHandler : ITickable
 	{
 		[Inject] private readonly TankScriptableObject _tankData;
-		[Inject] private readonly ITankView            _tankView;
 		[Inject] private readonly IController          _controller;
+		[Inject] private readonly ITankView            _tankView;
 		[Inject] private readonly ITank                _tank;
-
-		public void Handle(Vector2 moveDirection, float moveSpeed) { }
 
 		public void Tick()
 		{
-			var moveAxis      = _controller.MoveAxis;
-			var moveDirection = new Vector3(moveAxis.x, 0, moveAxis.y);
+			var axis = _controller.MoveAxis.y;
 
-			_tank.Move(moveDirection * _tankData.MoveSpeed * Time.deltaTime);
+			var moveDelta = _tank.BodyRotation * Vector3.forward * axis * _tankData.MoveSpeed * Time.deltaTime;
+
+			_tank.Move(moveDelta);
 
 			_tankView.UpdatePosition(_tank.Position);
 		}

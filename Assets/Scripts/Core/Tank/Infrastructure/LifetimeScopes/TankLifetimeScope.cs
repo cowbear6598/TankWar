@@ -25,6 +25,10 @@ namespace Core.Tank.Infrastructure.LifetimeScopes
 			       .AsImplementedInterfaces()
 			       .AsSelf();
 
+			builder.Register<TankBodyRotateHandler>(Lifetime.Scoped)
+			       .AsImplementedInterfaces()
+			       .AsSelf();
+
 			builder.RegisterComponent(_tankView)
 			       .AsImplementedInterfaces()
 			       .AsSelf();
