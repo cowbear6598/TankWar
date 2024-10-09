@@ -11,7 +11,9 @@ namespace Core.Controller.Domain
 		public void Initialize() => _controlMap.Enable();
 		public void Dispose()    => _controlMap.Disable();
 
-		public Vector2 MoveAxis => _controlMap.Player.Move.ReadValue<Vector2>();
-		public bool    IsShoot  => _controlMap.Player.Shoot.triggered;
+		public Vector2 MoveAxis      => _controlMap.Player.Move.ReadValue<Vector2>();
+		public Vector2 MousePosition => _controlMap.Player.MousePosition.ReadValue<Vector2>();
+
+		public bool IsShoot => _controlMap.Player.Shoot.triggered;
 	}
 }

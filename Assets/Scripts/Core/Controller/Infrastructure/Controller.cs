@@ -8,6 +8,7 @@ namespace Core.Controller.Infrastructure
 	{
 		[Inject] private readonly PCInput _input;
 
-		public Vector2 MoveAxis => _input.MoveAxis;
+		public Vector2 MoveAxis      => _input.MoveAxis;
+		public Vector2 MousePosition => _input.MousePosition;
 	}
 }

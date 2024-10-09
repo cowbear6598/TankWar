@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: TankData
   m_EditorClassIdentifier: 
   MoveSpeed: 10
-  BodyRotateSpeed: 100
+  BodyRotateSpeed: 50
   TurretRotateSpeed: 100
