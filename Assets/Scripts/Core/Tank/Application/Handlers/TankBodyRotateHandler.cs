@@ -18,7 +18,7 @@ namespace Core.Tank.Application.Handlers
 		{
 			var axis = _controller.MoveAxis.x;
 
-			_tank.BodyRotate(axis, Time.deltaTime);
+			_tank.RotateBody(axis, Time.deltaTime);
 
 			_tankView.UpdateBodyRotation(_tank.BodyRotation);
 		}

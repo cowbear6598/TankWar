@@ -424,6 +424,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bodyTransform: {fileID: 5345700170445359864}
+  _turretTransform: {fileID: 7026171683033894980}
 --- !u!1 &3951005365733002249
 GameObject:
   m_ObjectHideFlags: 0
