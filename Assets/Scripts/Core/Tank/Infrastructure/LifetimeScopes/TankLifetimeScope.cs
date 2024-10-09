@@ -1,5 +1,6 @@
 ﻿using Core.Tank.Application;
 using Core.Tank.Application.Adapters;
+using Core.Tank.Application.Handlers;
 using Core.Tank.Infrastructure.ScriptableObjects;
 using Core.Tank.Infrastructure.View;
 using UnityEngine;

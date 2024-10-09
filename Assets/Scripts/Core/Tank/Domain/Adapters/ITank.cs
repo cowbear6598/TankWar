@@ -4,8 +4,8 @@ namespace Core.Tank.Domain.Adapters
 {
 	public interface ITank
 	{
-		void Move(Vector3     moveDelta);
-		void BodyRotate(float rotationAngle);
+		void Move(float       axis, float deltaTime);
+		void BodyRotate(float axis, float deltaTime);
 
 		Vector3    Position     { get; }
 		Quaternion BodyRotation { get; }
