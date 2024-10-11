@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "com.cysharp.messagepipe": "https://github.com/Cysharp/MessagePipe.git?path=src/MessagePipe.Unity/Assets/Plugins/MessagePipe",
+    "com.cysharp.messagepipe.vcontainer": "https://github.com/Cysharp/MessagePipe.git?path=src/MessagePipe.Unity/Assets/Plugins/MessagePipe.VContainer",
     "com.soap.soap-tools": "https://github.com/cowbear6598/SoapTools.git?path=Assets/SoapTools",
     "com.unity.ai.navigation": "1.1.5",
     "com.unity.ide.rider": "3.0.28",
