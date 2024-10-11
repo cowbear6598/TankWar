@@ -10,5 +10,7 @@ namespace Core.Controller.Infrastructure
 
 		public Vector2 MoveAxis      => _input.MoveAxis;
 		public Vector2 MousePosition => _input.MousePosition;
+
+		public bool IsShoot => _input.IsShoot;
 	}
 }

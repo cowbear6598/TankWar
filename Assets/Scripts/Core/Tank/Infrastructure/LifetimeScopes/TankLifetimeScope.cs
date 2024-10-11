@@ -11,12 +11,12 @@ namespace Core.Tank.Infrastructure.LifetimeScopes
 {
 	public class TankLifetimeScope : LifetimeScope
 	{
-		[SerializeField] private TankScriptableObject _data;
-		[SerializeField] private TankView             _tankView;
+		[SerializeField] private TankScriptableObject _settings;
+		[SerializeField] private TankView             _view;
 
 		protected override void Configure(IContainerBuilder builder)
 		{
-			builder.RegisterInstance(_data);
+			builder.RegisterInstance(_settings);
 
 			builder.Register<Domain.Tank>(Lifetime.Scoped)
 			       .AsImplementedInterfaces()
@@ -34,7 +34,11 @@ namespace Core.Tank.Infrastructure.LifetimeScopes
 			       .AsImplementedInterfaces()
 			       .AsSelf();
 
-			builder.RegisterComponent(_tankView)
+			builder.Register<TankShootHandler>(Lifetime.Scoped)
+			       .AsImplementedInterfaces()
+			       .AsSelf();
+
+			builder.RegisterComponent(_view)
 			       .AsImplementedInterfaces()
 			       .AsSelf();
 		}
