@@ -1,4 +1,4 @@
-﻿using Core.Bullet.Infrastructure.Adapters;
+﻿using Core.Bullet.Application.Adapters;
 using Core.Controller;
 using Core.Tank.Application.Adapters;
 using VContainer;
@@ -18,7 +18,7 @@ namespace Core.Tank.Application.Handlers
 			{
 				var (spawnPosition, spawnRotation) = _tankView.GetSpawnPosition();
 
-				_bulletFactory.Spawn(spawnPosition, spawnRotation);
+				_bulletFactory.Reuse(spawnPosition, spawnRotation);
 			}
 		}
 	}

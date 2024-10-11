@@ -24,6 +24,10 @@ namespace Core.Bullet.Infrastructure.LifetimeScopes
 			       .AsImplementedInterfaces()
 			       .AsSelf();
 
+			builder.Register<BulletLifetimeHandler>(Lifetime.Scoped)
+			       .AsImplementedInterfaces()
+			       .AsSelf();
+
 			builder.RegisterComponent(_view)
 			       .AsImplementedInterfaces()
 			       .AsSelf();

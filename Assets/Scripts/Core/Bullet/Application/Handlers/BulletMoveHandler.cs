@@ -1,4 +1,4 @@
-﻿using Core.Bullet.Application.Adapaters;
+﻿using Core.Bullet.Application.Adapters;
 using Core.Bullet.Domain.Adapters;
 using UnityEngine;
 using VContainer;

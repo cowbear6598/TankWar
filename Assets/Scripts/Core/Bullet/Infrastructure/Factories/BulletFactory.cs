@@ -1,5 +1,5 @@
 ﻿using System;
-using Core.Bullet.Infrastructure.Adapters;
+using Core.Bullet.Application.Adapters;
 using Core.Bullet.Infrastructure.Views;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -48,12 +48,14 @@ namespace Core.Bullet.Infrastructure.Factories
 			}
 		}
 
-		public void Spawn(Vector3 position, Quaternion rotation)
+		public void Reuse(Vector3 position, Quaternion rotation)
 		{
 			var bullet = _bulletPool.Get();
 
 			bullet.Reuse(position, rotation);
 		}
+
+		public void Recycle(BulletView bulletView) => _bulletPool.Release(bulletView);
 
 		#region Object Pool Aciton
 
