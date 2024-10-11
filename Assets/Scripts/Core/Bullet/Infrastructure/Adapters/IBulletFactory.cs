@@ -1,4 +1,9 @@
-﻿namespace Core.Bullet.Infrastructure.Adapters
+﻿using UnityEngine;
+
+namespace Core.Bullet.Infrastructure.Adapters
 {
-	public interface IBulletFactory { }
+	public interface IBulletFactory
+	{
+		void Spawn(Vector3 position, Quaternion rotation);
+	}
 }

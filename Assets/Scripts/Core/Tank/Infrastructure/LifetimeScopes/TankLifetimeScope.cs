@@ -34,6 +34,10 @@ namespace Core.Tank.Infrastructure.LifetimeScopes
 			       .AsImplementedInterfaces()
 			       .AsSelf();
 
+			builder.Register<TankShootHandler>(Lifetime.Scoped)
+			       .AsImplementedInterfaces()
+			       .AsSelf();
+
 			builder.RegisterComponent(_view)
 			       .AsImplementedInterfaces()
 			       .AsSelf();

@@ -6,5 +6,7 @@ namespace Core.Controller
 	{
 		Vector2 MoveAxis      { get; }
 		Vector2 MousePosition { get; }
+
+		bool IsShoot { get; }
 	}
 }

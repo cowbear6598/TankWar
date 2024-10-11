@@ -196,8 +196,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentReference:
-    TypeName: 
+    TypeName: Core.Unity.Game.GameLifetimeScope
   autoRun: 1
-  autoInjectGameObjects: []
+  autoInjectGameObjects:
+  - {fileID: 6336589565516101244}
   _view: {fileID: 4182959899343028052}
   _settings: {fileID: 11400000, guid: 969f2d8a26660f44f9b4baa5c0b57447, type: 2}

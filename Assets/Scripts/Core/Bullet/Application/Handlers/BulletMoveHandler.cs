@@ -13,6 +13,9 @@ namespace Core.Bullet.Application.Handlers
 
 		public void Tick()
 		{
+			if (!_bullet.IsActive)
+				return;
+
 			_bullet.Move(Time.deltaTime);
 			_bulletView.UpdatePosition(_bullet.Position);
 		}

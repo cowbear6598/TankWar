@@ -9,11 +9,24 @@ namespace Core.Bullet.Domain
 	{
 		[Inject] private readonly BulletScriptableObject _bulletSettings;
 
-		public Vector3 Position { get; private set; }
+		public Vector3    Position { get; private set; }
+		public Quaternion Rotation { get; private set; }
+
+		public bool IsActive { get; private set; }
+
+		public void Reuse(Vector3 position, Quaternion rotation)
+		{
+			Position = position;
+			Rotation = rotation;
+
+			IsActive = true;
+		}
 
 		public void Move(float deltaTime)
 		{
-			Position += _bulletSettings.MoveSpeed * Vector3.forward * deltaTime;
+			var forward = Rotation * Vector3.forward;
+
+			Position += _bulletSettings.MoveSpeed * forward * deltaTime;
 		}
 	}
 }

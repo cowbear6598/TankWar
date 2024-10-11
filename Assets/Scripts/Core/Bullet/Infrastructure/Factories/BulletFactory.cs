@@ -11,8 +11,8 @@ namespace Core.Bullet.Infrastructure.Factories
 {
 	public class BulletFactory : IInitializable, IBulletFactory
 	{
-		[Inject] private readonly Settings        _settings;
-		[Inject] private readonly IObjectResolver _resolver;
+		[Inject] private readonly Settings         _settings;
+		[Inject] private readonly Func<BulletView> _bulletFactory;
 
 		private IObjectPool<BulletView> _bulletPool;
 
@@ -48,9 +48,20 @@ namespace Core.Bullet.Infrastructure.Factories
 			}
 		}
 
+		public void Spawn(Vector3 position, Quaternion rotation)
+		{
+			var bullet = _bulletPool.Get();
+
+			bullet.Reuse(position, rotation);
+		}
+
+		#region Object Pool Aciton
+
 		private BulletView OnCreateBullet()
 		{
-			var bullet = _resolver.Instantiate(_settings.BulletPrefab, _parent);
+			var bullet = _bulletFactory.Invoke();
+
+			bullet.transform.SetParent(_parent);
 			bullet.gameObject.SetActive(false);
 			return bullet;
 		}
@@ -69,6 +80,8 @@ namespace Core.Bullet.Infrastructure.Factories
 		{
 			Object.Destroy(bullet.gameObject);
 		}
+
+		#endregion
 
 		[Serializable]
 		public class Settings
