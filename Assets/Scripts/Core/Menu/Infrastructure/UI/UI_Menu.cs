@@ -1,11 +1,12 @@
-﻿using Core.Network.Infrastructure.Adapters;
+﻿using Core.Misc.UI;
+using Core.Network.Infrastructure.Adapters;
 using TMPro;
 using UnityEngine;
 using VContainer;
 
 namespace Core.Menu.Infrastructure.UI
 {
-	public class UI_Menu : MonoBehaviour
+	public class UI_Menu : UI_Panel
 	{
 		[Inject] private readonly INetworkFacade _networkFacade;
 

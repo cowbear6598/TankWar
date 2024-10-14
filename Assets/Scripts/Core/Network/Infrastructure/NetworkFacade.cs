@@ -16,6 +16,6 @@ namespace Core.Network.Infrastructure
 			_networkManager.StartClient();
 		}
 
-		public void StartServer() => _networkManager.StartServer();
+		public void StartServer() => _networkManager.StartHost();
 	}
 }

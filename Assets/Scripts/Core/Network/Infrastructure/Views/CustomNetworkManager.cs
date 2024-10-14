@@ -27,13 +27,16 @@ namespace Core.Network.Infrastructure.Views
 		public override void OnClientConnect()
 		{
 			Debug.Log("Client connected");
+
+			NetworkClient.Ready();
+			NetworkClient.AddPlayer();
 		}
 
 		public override void OnServerAddPlayer(NetworkConnectionToClient conn)
 		{
-			var playerObj = Instantiate(_roomPlayerPrefab);
+			Debug.Log("Add Room Player");
 
-			playerObj.name = $"Player_{conn.connectionId}";
+			var playerObj = Instantiate(_roomPlayerPrefab);
 
 			NetworkServer.AddPlayerForConnection(conn, playerObj.gameObject);
 		}

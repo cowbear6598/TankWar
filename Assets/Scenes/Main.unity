@@ -212,26 +212,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 221543260}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b0fecffa3f624585964b0d0eb21b18e, type: 3}
+  m_Script: {fileID: 11500000, guid: c7424c1070fad4ba2a7a96b02fbeb4bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   port: 7777
-  DualMode: 1
   NoDelay: 1
-  Interval: 10
-  Timeout: 10000
-  RecvBufferSize: 7361536
-  SendBufferSize: 7361536
-  FastResend: 2
-  ReceiveWindowSize: 4096
-  SendWindowSize: 4096
-  MaxRetransmit: 40
-  MaximizeSocketBuffers: 1
-  ReliableMaxMessageSize: 297433
-  UnreliableMaxMessageSize: 1194
-  debugLog: 1
-  statisticsGUI: 0
-  statisticsLog: 0
+  SendTimeout: 5000
+  ReceiveTimeout: 30000
+  serverMaxMessageSize: 16384
+  serverMaxReceivesPerTick: 10000
+  serverSendQueueLimitPerConnection: 10000
+  serverReceiveQueueLimitPerConnection: 10000
+  clientMaxMessageSize: 16384
+  clientMaxReceivesPerTick: 1000
+  clientSendQueueLimit: 10000
+  clientReceiveQueueLimit: 10000
 --- !u!1 &279086360
 GameObject:
   m_ObjectHideFlags: 0
@@ -645,14 +640,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d183b7b282f744949980433ade4dac5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isServer: 1
+  _isServer: 0
   _menuScene:
     m_AssetGUID: 0fa9373b8ad1b2745ae1972927160071
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  _gameScene:
-    m_AssetGUID: 99c9720ab356a0642a771bea13969a05
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
