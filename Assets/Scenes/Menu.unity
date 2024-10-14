@@ -134,9 +134,9 @@ GameObject:
   - component: {fileID: 279086363}
   - component: {fileID: 279086362}
   - component: {fileID: 279086361}
-  - component: {fileID: 279086365}
   - component: {fileID: 279086366}
   - component: {fileID: 279086367}
+  - component: {fileID: 279086365}
   m_Layer: 5
   m_Name: UI_Menu
   m_TagString: Untagged
@@ -253,6 +253,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3392d5f58f84857a8b284ae29273586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _canvasGroup: {fileID: 279086367}
   _ipInputField: {fileID: 430476592}
   _portInputField: {fileID: 1831950691}
 --- !u!225 &279086367
@@ -923,6 +924,7 @@ MonoBehaviour:
   autoRun: 1
   autoInjectGameObjects:
   - {fileID: 279086360}
+  - {fileID: 1995263015}
 --- !u!1 &1364402020
 GameObject:
   m_ObjectHideFlags: 0
@@ -1606,9 +1608,9 @@ GameObject:
   - component: {fileID: 1995263020}
   - component: {fileID: 1995263019}
   - component: {fileID: 1995263018}
-  - component: {fileID: 1995263017}
   - component: {fileID: 1995263023}
   - component: {fileID: 1995263022}
+  - component: {fileID: 1995263017}
   m_Layer: 5
   m_Name: UI_Room
   m_TagString: Untagged
@@ -1734,6 +1736,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5005a3071c740da893474bdd4507242, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _canvasGroup: {fileID: 1995263022}
 --- !u!1 &2059149368
 GameObject:
   m_ObjectHideFlags: 0

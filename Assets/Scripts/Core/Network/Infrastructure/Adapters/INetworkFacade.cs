@@ -2,7 +2,7 @@
 {
 	public interface INetworkFacade
 	{
-		void Connect(string ip, ushort port);
+		void StartClient(string ip, ushort port);
 		void StartServer();
 	}
 }

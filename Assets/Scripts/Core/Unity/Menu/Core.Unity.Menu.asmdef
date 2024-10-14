@@ -2,7 +2,8 @@
     "name": "Core.Unity.Menu",
     "rootNamespace": "",
     "references": [
-        "GUID:b0214a6008ed146ff8f122a6a9c2f6cc"
+        "GUID:b0214a6008ed146ff8f122a6a9c2f6cc",
+        "GUID:e3e1f0f45a4ad354c9ad42fb5742f1f5"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

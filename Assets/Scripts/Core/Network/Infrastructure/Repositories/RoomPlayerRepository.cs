@@ -5,6 +5,8 @@ namespace Core.Network.Infrastructure.Repositories
 {
 	public class RoomPlayerRepository
 	{
-		private readonly HashSet<RoomPlayer> _players = new();
+		private readonly List<RoomPlayer> _players = new();
+
+		public void Add(RoomPlayer roomPlayer) => _players.Add(roomPlayer);
 	}
 }

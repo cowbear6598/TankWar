@@ -9,7 +9,7 @@ namespace Core.Network.Infrastructure
 	{
 		[Inject] private readonly CustomNetworkManager _networkManager;
 
-		public void Connect(string ip, ushort port)
+		public void StartClient(string ip, ushort port)
 		{
 			_networkManager.networkAddress                               = ip;
 			_networkManager.transport.GetComponent<PortTransport>().Port = port;

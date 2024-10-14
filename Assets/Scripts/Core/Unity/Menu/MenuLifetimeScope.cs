@@ -5,6 +5,11 @@ namespace Core.Unity.Menu
 {
 	public class MenuLifetimeScope : LifetimeScope
 	{
-		protected override void Configure(IContainerBuilder builder) { }
+		protected override void Configure(IContainerBuilder builder)
+		{
+			builder.Register<Core.Menu.Domain.Menu>(Lifetime.Singleton)
+			       .AsImplementedInterfaces()
+			       .AsSelf();
+		}
 	}
 }
