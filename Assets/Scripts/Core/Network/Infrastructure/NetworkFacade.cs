@@ -12,8 +12,10 @@ namespace Core.Network.Infrastructure
 		public void Connect(string ip, ushort port)
 		{
 			_networkManager.networkAddress                               = ip;
-			_networkManager.transport.GetComponent<PortTransport>().Port = (ushort)port;
+			_networkManager.transport.GetComponent<PortTransport>().Port = port;
 			_networkManager.StartClient();
 		}
+
+		public void StartServer() => _networkManager.StartServer();
 	}
 }

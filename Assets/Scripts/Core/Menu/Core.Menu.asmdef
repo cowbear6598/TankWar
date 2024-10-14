@@ -1,8 +1,10 @@
 {
-    "name": "Core.Unity.Menu",
+    "name": "Core.Menu",
     "rootNamespace": "",
     "references": [
-        "GUID:b0214a6008ed146ff8f122a6a9c2f6cc"
+        "GUID:b0214a6008ed146ff8f122a6a9c2f6cc",
+        "GUID:b9f272e429829654c96c7535f85614dd",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d297f65e34ae4d78871fc74ac7f904c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dontDestroyOnLoad: 1
+  dontDestroyOnLoad: 0
   runInBackground: 1
   headlessStartMode: 0
   editorAutoStart: 0
@@ -184,7 +184,8 @@ MonoBehaviour:
   playerPrefab: {fileID: 0}
   autoCreatePlayer: 0
   playerSpawnMethod: 0
-  spawnPrefabs: []
+  spawnPrefabs:
+  - {fileID: 5228119593843198840, guid: 6b94598b73e042d47bf803c51a538f4e, type: 3}
   exceptionsDisconnect: 1
   snapshotSettings:
     bufferTimeMultiplier: 2
@@ -200,6 +201,8 @@ MonoBehaviour:
   evaluationMethod: 0
   evaluationInterval: 3
   timeInterpolationGui: 0
+  _roomPlayerPrefab: {fileID: 3846118544669767407, guid: 6b94598b73e042d47bf803c51a538f4e,
+    type: 3}
 --- !u!114 &221543263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -566,6 +569,7 @@ MonoBehaviour:
   autoRun: 1
   autoInjectGameObjects:
   - {fileID: 1418378347}
+  - {fileID: 221543260}
 --- !u!1 &1067335279
 GameObject:
   m_ObjectHideFlags: 0
@@ -613,7 +617,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1418378348
 Transform:
   m_ObjectHideFlags: 0

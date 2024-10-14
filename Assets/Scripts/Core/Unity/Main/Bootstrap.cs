@@ -1,4 +1,5 @@
-﻿using SoapTools.SceneController.Application.Repository;
+﻿using Core.Network.Infrastructure.Adapters;
+using SoapTools.SceneController.Application.Repository;
 using SoapTools.SceneController.Infrastructure;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -9,26 +10,22 @@ namespace Core.Unity.Main
 	public class Bootstrap : MonoBehaviour
 	{
 		[Inject] private readonly SceneRepository _sceneRepository;
+		[Inject] private readonly INetworkFacade  _networkFacade;
 
 		[SerializeField] private bool _isServer;
 
 		[SerializeField] private AssetReference _menuScene;
-		[SerializeField] private AssetReference _gameScene;
 
 		private async void Awake()
 		{
 			if (_isServer)
 			{
-				await new SceneControllerBuilder(_sceneRepository)
-				      .LoadScene(_gameScene)
-				      .Execute();
+				_networkFacade.StartServer();
 			}
-			else
-			{
-				await new SceneControllerBuilder(_sceneRepository)
-				      .LoadScene(_menuScene)
-				      .Execute();
-			}
+
+			await new SceneControllerBuilder(_sceneRepository)
+			      .LoadScene(_menuScene)
+			      .Execute();
 
 			Destroy(gameObject);
 		}

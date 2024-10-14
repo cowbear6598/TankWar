@@ -1,4 +1,5 @@
 ﻿using Core.Network.Infrastructure;
+using Core.Network.Infrastructure.Repositories;
 using Core.Network.Infrastructure.Views;
 using MessagePipe;
 using SoapTools.SceneController.Application.Repository;
@@ -11,14 +12,19 @@ namespace Core.Unity.Main
 	{
 		protected override void Configure(IContainerBuilder builder)
 		{
-			RegisterNetwork(builder);
 			RegisterMessagePipe(builder);
+			RegisterNetwork(builder);
 			RegisterScene(builder);
 		}
 
 		private void RegisterNetwork(IContainerBuilder builder)
 		{
 			builder.RegisterComponentInHierarchy<CustomNetworkManager>();
+
+			builder.Register<RoomPlayerRepository>(Lifetime.Singleton)
+			       .AsImplementedInterfaces()
+			       .AsSelf();
+
 			builder.Register<NetworkFacade>(Lifetime.Singleton)
 			       .AsImplementedInterfaces()
 			       .AsSelf();
