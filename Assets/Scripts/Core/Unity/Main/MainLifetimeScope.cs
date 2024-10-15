@@ -1,6 +1,5 @@
-﻿using Core.Network.Infrastructure;
-using Core.Network.Infrastructure.Repositories;
-using Core.Network.Infrastructure.Views;
+﻿using Core.Network.Domain;
+using Core.Network.Infrastructure;
 using MessagePipe;
 using SoapTools.SceneController.Application.Repository;
 using VContainer;
@@ -19,13 +18,7 @@ namespace Core.Unity.Main
 
 		private void RegisterNetwork(IContainerBuilder builder)
 		{
-			builder.RegisterComponentInHierarchy<CustomNetworkManager>();
-
-			builder.Register<RoomPlayerRepository>(Lifetime.Singleton)
-			       .AsImplementedInterfaces()
-			       .AsSelf();
-
-			builder.Register<NetworkFacade>(Lifetime.Singleton)
+			builder.Register<RoomPlayer>(Lifetime.Singleton)
 			       .AsImplementedInterfaces()
 			       .AsSelf();
 		}

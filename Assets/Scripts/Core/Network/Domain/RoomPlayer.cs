@@ -1,10 +1,10 @@
-﻿using Mirror;
+﻿using Core.Network.Domain.Adapters;
 
 namespace Core.Network.Domain
 {
-	public class RoomPlayer : NetworkBehaviour
+	public class RoomPlayer : IRoomPlayer
 	{
-		[SyncVar] private bool _isReady;
-		[SyncVar] private int  _playerId;
+		private bool   _isReady;
+		private string _playerName;
 	}
 }

@@ -2,7 +2,7 @@
 using Core.Menu.Common;
 using Core.Menu.Domain;
 using Core.Misc.UI;
-using Core.Network.Infrastructure.Adapters;
+using Core.Network.Infrastructure.Views;
 using MessagePipe;
 using TMPro;
 using UnityEngine;
@@ -13,7 +13,6 @@ namespace Core.Menu.Infrastructure.UI
 	public class UI_Menu : UI_Panel
 	{
 		[Inject] private readonly ISubscriber<OnMenuStateChanged> _onMenuStateChanged;
-		[Inject] private readonly INetworkFacade                  _networkFacade;
 
 		[SerializeField] private TMP_InputField _ipInputField;
 		[SerializeField] private TMP_InputField _portInputField;
@@ -25,7 +24,7 @@ namespace Core.Menu.Infrastructure.UI
 
 		public void Button_Connect()
 		{
-			_networkFacade.StartClient(_ipInputField.text, ushort.Parse(_portInputField.text));
+			CustomNetworkManager.Instance.StartClient(_ipInputField.text, ushort.Parse(_portInputField.text));
 		}
 
 		private void OnMenuStateChanged(OnMenuStateChanged e)

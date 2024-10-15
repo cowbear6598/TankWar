@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Core.Network.Common;
-using Core.Network.Infrastructure.Adapters;
+using Core.Network.Infrastructure.Views;
 using Cysharp.Threading.Tasks;
 using MessagePipe;
 using SoapTools.SceneController.Application.Repository;
@@ -15,9 +15,7 @@ namespace Core.Unity.Main
 	public class Bootstrap : MonoBehaviour
 	{
 		[Inject] private readonly ISubscriber<OnServerConnected> _onServerConnected;
-
-		[Inject] private readonly SceneRepository _sceneRepository;
-		[Inject] private readonly INetworkFacade  _networkFacade;
+		[Inject] private readonly SceneRepository                _sceneRepository;
 
 		[SerializeField] private bool _isServer;
 
@@ -29,7 +27,7 @@ namespace Core.Unity.Main
 		{
 			if (_isServer)
 			{
-				_networkFacade.StartServer();
+				CustomNetworkManager.Instance.StartHost();
 				return;
 			}
 

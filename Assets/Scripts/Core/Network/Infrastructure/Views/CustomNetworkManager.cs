@@ -1,5 +1,4 @@
 ﻿using Core.Network.Common;
-using Core.Network.Domain;
 using Core.Network.Infrastructure.Repositories;
 using MessagePipe;
 using Mirror;
@@ -11,13 +10,37 @@ namespace Core.Network.Infrastructure.Views
 	public class CustomNetworkManager : NetworkManager
 	{
 		[Inject] private readonly IPublisher<OnServerConnected> _onServerConnected;
-		[Inject] private readonly RoomPlayerRepository          _roomPlayerRepository;
+		[Inject] private readonly IPublisher<OnRoomPlayerAdded> _onRoomPlayerAdded;
 
-		[SerializeField] private RoomPlayer _roomPlayerPrefab;
+		[Inject] private readonly IObjectResolver _resolver;
+
+		[SerializeField] private RoomPlayerView       _roomPlayerPrefab;
+		[SerializeField] private RoomPlayerRepository _roomPlayerRepositoryPrefab;
+
+		public static CustomNetworkManager Instance { get; private set; }
+
+		public override void Awake()
+		{
+			base.Awake();
+
+			Instance = this;
+		}
+
+		public void StartClient(string ip, ushort port)
+		{
+			networkAddress                     = ip;
+			GetComponent<PortTransport>().Port = port;
+
+			StartClient();
+		}
 
 		public override void OnStartServer()
 		{
 			Debug.Log("Server started");
+
+			var roomPlayerRepository = Instantiate(_roomPlayerRepositoryPrefab);
+
+			NetworkServer.Spawn(roomPlayerRepository.gameObject);
 
 			_onServerConnected.Publish(new OnServerConnected());
 		}
@@ -41,11 +64,16 @@ namespace Core.Network.Infrastructure.Views
 
 			var roomPlayer = Instantiate(_roomPlayerPrefab);
 
-			_roomPlayerRepository.Add(roomPlayer);
+			RoomPlayerRepository.Instance.Add(conn.connectionId, roomPlayer);
+
+			_onRoomPlayerAdded.Publish(new OnRoomPlayerAdded());
 
 			NetworkServer.AddPlayerForConnection(conn, roomPlayer.gameObject);
 		}
 
-		public override void OnServerDisconnect(NetworkConnectionToClient conn) { }
+		public override void OnServerDisconnect(NetworkConnectionToClient conn)
+		{
+			RoomPlayerRepository.Instance.Remove(conn.connectionId);
+		}
 	}
 }

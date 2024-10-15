@@ -1,12 +1,28 @@
 ﻿using System.Collections.Generic;
-using Core.Network.Domain;
+using Core.Network.Infrastructure.Views;
+using Mirror;
 
 namespace Core.Network.Infrastructure.Repositories
 {
-	public class RoomPlayerRepository
+	public class RoomPlayerRepository : NetworkBehaviour
 	{
-		private readonly List<RoomPlayer> _players = new();
+		public static RoomPlayerRepository Instance { get; private set; }
 
-		public void Add(RoomPlayer roomPlayer) => _players.Add(roomPlayer);
+		private readonly SyncDictionary<int, RoomPlayerView> _roomPlayers = new();
+
+		private void Awake()
+		{
+			Instance = this;
+		}
+
+		public void Add(int connectionID, RoomPlayerView roomPlayer) => _roomPlayers.TryAdd(connectionID, roomPlayer);
+
+		public void Remove(int connectionID)
+		{
+			if (_roomPlayers.TryGetValue(connectionID, out var roomPlayer))
+				NetworkServer.Destroy(roomPlayer.gameObject);
+
+			_roomPlayers.Remove(connectionID);
+		}
 	}
 }
