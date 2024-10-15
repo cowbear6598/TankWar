@@ -1,25 +1,45 @@
-﻿using Core.Network.Domain.Adapters;
+﻿using System;
+using Core.User.Domain.Adapters;
 using Mirror;
 using UnityEngine;
 using VContainer;
-using VContainer.Unity;
 
 namespace Core.Network.Infrastructure.Views
 {
 	public class RoomPlayerView : NetworkBehaviour
 	{
-		private readonly IObjectResolver _resolver;
+		[SyncVar] private string _playerName;
+		[SyncVar] private bool   _isReady;
 
-		private IRoomPlayer _roomPlayer;
+		[Inject] private IUser _user;
 
-		private void Awake()
+		private IDisposable _subscription;
+
+		private void Start()
 		{
 			if (!isLocalPlayer)
 				return;
 
-			Debug.Log("I control this player");
+			CustomNetworkManager.Instance.InjectGameObject(gameObject);
 
-			FindFirstObjectByType<LifetimeScope>().Container.InjectGameObject(gameObject);
+			CmdSetName(_user.Name);
+		}
+
+		private void Update()
+		{
+			Debug.Log($"Player name: {_playerName}");
+		}
+
+		[Command]
+		public void CmdSetName(string name)
+		{
+			_playerName = name;
+		}
+
+		[Command]
+		public void CmdSetReady(bool isReady)
+		{
+			_isReady = isReady;
 		}
 	}
 }

@@ -4,6 +4,7 @@ using MessagePipe;
 using Mirror;
 using UnityEngine;
 using VContainer;
+using VContainer.Unity;
 
 namespace Core.Network.Infrastructure.Views
 {
@@ -60,20 +61,20 @@ namespace Core.Network.Infrastructure.Views
 
 		public override void OnServerAddPlayer(NetworkConnectionToClient conn)
 		{
-			Debug.Log("Add Room Player");
-
 			var roomPlayer = Instantiate(_roomPlayerPrefab);
+
+			NetworkServer.AddPlayerForConnection(conn, roomPlayer.gameObject);
 
 			RoomPlayerRepository.Instance.Add(conn.connectionId, roomPlayer);
 
 			_onRoomPlayerAdded.Publish(new OnRoomPlayerAdded());
-
-			NetworkServer.AddPlayerForConnection(conn, roomPlayer.gameObject);
 		}
 
 		public override void OnServerDisconnect(NetworkConnectionToClient conn)
 		{
 			RoomPlayerRepository.Instance.Remove(conn.connectionId);
 		}
+
+		public void InjectGameObject(GameObject gameObject) => _resolver.InjectGameObject(gameObject);
 	}
 }

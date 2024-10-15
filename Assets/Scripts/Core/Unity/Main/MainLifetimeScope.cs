@@ -1,6 +1,4 @@
-﻿using Core.Network.Domain;
-using Core.Network.Infrastructure;
-using MessagePipe;
+﻿using MessagePipe;
 using SoapTools.SceneController.Application.Repository;
 using VContainer;
 using VContainer.Unity;
@@ -11,14 +9,14 @@ namespace Core.Unity.Main
 	{
 		protected override void Configure(IContainerBuilder builder)
 		{
+			RegisterUser(builder);
 			RegisterMessagePipe(builder);
-			RegisterNetwork(builder);
 			RegisterScene(builder);
 		}
 
-		private void RegisterNetwork(IContainerBuilder builder)
+		private void RegisterUser(IContainerBuilder builder)
 		{
-			builder.Register<RoomPlayer>(Lifetime.Singleton)
+			builder.Register<User.Domain.User>(Lifetime.Singleton)
 			       .AsImplementedInterfaces()
 			       .AsSelf();
 		}

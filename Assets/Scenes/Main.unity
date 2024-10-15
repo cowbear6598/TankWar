@@ -643,7 +643,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d183b7b282f744949980433ade4dac5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isServer: 1
+  _isServer: 0
   _menuScene:
     m_AssetGUID: 0fa9373b8ad1b2745ae1972927160071
     m_SubObjectName: 
