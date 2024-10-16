@@ -1,19 +1,19 @@
 ﻿using System;
 using Core.User.Domain.Adapters;
 using Mirror;
-using UnityEngine;
 using VContainer;
 
 namespace Core.Network.Infrastructure.Views
 {
 	public class RoomPlayerView : NetworkBehaviour
 	{
-		[SyncVar] private string _playerName;
-		[SyncVar] private bool   _isReady;
+		[SyncVar(hook = nameof(OnPlayerNameChanged))]  private string _playerName;
+		[SyncVar(hook = nameof(OnPlayerReadyChanged))] private bool   _isReady;
 
 		[Inject] private IUser _user;
 
-		private IDisposable _subscription;
+		private Action<string> _onPlayerNameChanged;
+		private Action<bool>   _onPlayerReadyChanged;
 
 		private void Start()
 		{
@@ -25,13 +25,11 @@ namespace Core.Network.Infrastructure.Views
 			CmdSetName(_user.Name);
 		}
 
-		private void Update()
-		{
-			Debug.Log($"Player name: {_playerName}");
-		}
+		private void OnPlayerNameChanged(string _, string playerName) => _onPlayerNameChanged?.Invoke(playerName);
+		private void OnPlayerReadyChanged(bool  _, bool   isReady)    => _onPlayerReadyChanged?.Invoke(isReady);
 
 		[Command]
-		public void CmdSetName(string name)
+		private void CmdSetName(string name)
 		{
 			_playerName = name;
 		}
@@ -41,5 +39,11 @@ namespace Core.Network.Infrastructure.Views
 		{
 			_isReady = isReady;
 		}
+
+		public string PlayerName => _playerName;
+		public bool   IsReady    => _isReady;
+
+		public void SubscribeOnPlayerNameChanged(Action<string> onPlayerNameChanged)  => _onPlayerNameChanged += onPlayerNameChanged;
+		public void SubscribeOnPlayerReadyChanged(Action<bool>  onPlayerReadyChanged) => _onPlayerReadyChanged += onPlayerReadyChanged;
 	}
 }

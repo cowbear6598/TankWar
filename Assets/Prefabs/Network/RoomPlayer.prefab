@@ -48,8 +48,6 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  _playerName: 
-  _isReady: 0
 --- !u!114 &5761992996910694336
 MonoBehaviour:
   m_ObjectHideFlags: 0

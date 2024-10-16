@@ -26,11 +26,18 @@ namespace Core.Menu.Infrastructure.UI
 		private void OnEnable()  => _subscription = _onMenuStateChanged.Subscribe(OnMenuStateChanged);
 		private void OnDisable() => _subscription.Dispose();
 
-		public void Button_Connect()
+		public void Button_Client()
 		{
 			_user.SetName(_nameInputField.text);
 
-			CustomNetworkManager.Instance.StartClient(_ipInputField.text, ushort.Parse(_portInputField.text));
+			CustomNetworkManager.Instance.Connect(_ipInputField.text, ushort.Parse(_portInputField.text), false);
+		}
+
+		public void Button_Host()
+		{
+			_user.SetName(_nameInputField.text);
+
+			CustomNetworkManager.Instance.Connect(_ipInputField.text, ushort.Parse(_portInputField.text), true);
 		}
 
 		private void OnMenuStateChanged(OnMenuStateChanged e)

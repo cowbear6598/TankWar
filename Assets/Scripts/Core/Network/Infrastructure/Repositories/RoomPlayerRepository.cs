@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Core.Network.Common;
 using Core.Network.Infrastructure.Views;
 using Mirror;
 
@@ -15,7 +16,10 @@ namespace Core.Network.Infrastructure.Repositories
 			Instance = this;
 		}
 
-		public void Add(int connectionID, RoomPlayerView roomPlayer) => _roomPlayers.TryAdd(connectionID, roomPlayer);
+		public void Add(int connectionID, RoomPlayerView roomPlayer)
+		{
+			_roomPlayers.TryAdd(connectionID, roomPlayer);
+		}
 
 		public void Remove(int connectionID)
 		{
@@ -24,5 +28,7 @@ namespace Core.Network.Infrastructure.Repositories
 
 			_roomPlayers.Remove(connectionID);
 		}
+
+		public RoomPlayerView Get(int connectionID) => _roomPlayers[connectionID];
 	}
 }
