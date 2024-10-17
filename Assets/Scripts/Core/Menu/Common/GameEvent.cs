@@ -13,4 +13,17 @@ namespace Core.Menu.Common
 			State     = state;
 		}
 	}
+
+	public struct OnCountdownStarted { }
+	public struct OnCountdownStopped { }
+
+	public struct OnCountdownChanged
+	{
+		public readonly int Countdown;
+
+		public OnCountdownChanged(int countdown)
+		{
+			Countdown = countdown;
+		}
+	}
 }

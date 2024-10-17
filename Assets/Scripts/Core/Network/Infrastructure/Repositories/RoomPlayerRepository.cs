@@ -34,5 +34,7 @@ namespace Core.Network.Infrastructure.Repositories
 
 			NetworkServer.Destroy(roomPlayerView.gameObject);
 		}
+
+		public IList<RoomPlayerView> GetRoomPlayerViews() => new List<RoomPlayerView>(_roomPlayers.Values);
 	}
 }

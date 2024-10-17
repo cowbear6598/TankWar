@@ -5,6 +5,7 @@ using Core.Menu.Domain;
 using Core.Misc.UI;
 using Core.Network.Common;
 using MessagePipe;
+using TMPro;
 using UnityEngine;
 using VContainer;
 
@@ -15,9 +16,13 @@ namespace Core.Menu.Infrastructure.UI
 		[Inject] private readonly ISubscriber<OnMenuStateChanged> _onMenuStateChanged;
 		[Inject] private readonly ISubscriber<OnPlayerAdded>      _onPlayerAdded;
 		[Inject] private readonly ISubscriber<OnPlayerRemoved>    _onPlayerRemoved;
+		[Inject] private readonly ISubscriber<OnCountdownStarted> _onCountdownStarted;
+		[Inject] private readonly ISubscriber<OnCountdownChanged> _onCountdownChanged;
+		[Inject] private readonly ISubscriber<OnCountdownStopped> _onCountdownStopped;
 
-		[SerializeField] private UI_RoomPlayer _uiRoomPlayerPrefab;
-		[SerializeField] private Transform     _roomPlayerParent;
+		[SerializeField] private TextMeshProUGUI _countdownText;
+		[SerializeField] private UI_RoomPlayer   _uiRoomPlayerPrefab;
+		[SerializeField] private Transform       _roomPlayerParent;
 
 		private readonly Dictionary<int, UI_RoomPlayer> _uiRoomPlayers = new();
 
@@ -30,6 +35,9 @@ namespace Core.Menu.Infrastructure.UI
 			_onMenuStateChanged.Subscribe(OnMenuStateChanged).AddTo(bag);
 			_onPlayerAdded.Subscribe(OnPlayerAdded).AddTo(bag);
 			_onPlayerRemoved.Subscribe(OnPlayerRemoved).AddTo(bag);
+			_onCountdownStarted.Subscribe(OnCountdownStarted).AddTo(bag);
+			_onCountdownChanged.Subscribe(OnCountdownChanged).AddTo(bag);
+			_onCountdownStopped.Subscribe(OnCountdownStopped).AddTo(bag);
 
 			_subscription = bag.Build();
 		}
@@ -54,6 +62,21 @@ namespace Core.Menu.Infrastructure.UI
 
 			Destroy(uiRoomPlayer.gameObject);
 			_uiRoomPlayers.Remove(e.ConnectionID);
+		}
+
+		private void OnCountdownStarted(OnCountdownStarted e)
+		{
+			_countdownText.gameObject.SetActive(true);
+		}
+
+		private void OnCountdownChanged(OnCountdownChanged e)
+		{
+			_countdownText.text = e.Countdown.ToString();
+		}
+
+		private void OnCountdownStopped(OnCountdownStopped e)
+		{
+			_countdownText.gameObject.SetActive(false);
 		}
 
 		private void OnMenuStateChanged(OnMenuStateChanged e)

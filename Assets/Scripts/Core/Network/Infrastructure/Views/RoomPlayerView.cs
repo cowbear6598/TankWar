@@ -1,6 +1,8 @@
 ﻿using System;
+using Core.Network.Common;
 using Core.Network.Infrastructure.Repositories;
 using Core.User.Domain.Adapters;
+using MessagePipe;
 using Mirror;
 using VContainer;
 
@@ -8,6 +10,8 @@ namespace Core.Network.Infrastructure.Views
 {
 	public class RoomPlayerView : NetworkBehaviour
 	{
+		[Inject] private readonly IPublisher<OnPlayerReadyStatusChanged> _onPlayerReadyStatusChanged;
+
 		[Inject] private readonly IUser                _user;
 		[Inject] private readonly RoomPlayerRepository _roomPlayerRepository;
 
@@ -45,6 +49,8 @@ namespace Core.Network.Infrastructure.Views
 		public void CmdSetReadyStatus()
 		{
 			_isReady = !_isReady;
+
+			_onPlayerReadyStatusChanged.Publish(new OnPlayerReadyStatusChanged());
 		}
 
 		private void OnPlayerNameChanged(string _, string playerName)

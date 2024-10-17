@@ -23,4 +23,6 @@ namespace Core.Network.Common
 
 		public OnPlayerRemoved(int connectionID) => ConnectionID = connectionID;
 	}
+
+	public struct OnPlayerReadyStatusChanged { }
 }
