@@ -1,7 +1,7 @@
-﻿using System;
-using Core.Network.Infrastructure.Views;
+﻿using Core.Network.Infrastructure.Views;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Core.Menu.Infrastructure.UI
 {
@@ -9,22 +9,36 @@ namespace Core.Menu.Infrastructure.UI
 	{
 		[SerializeField] private TextMeshProUGUI _nameText;
 		[SerializeField] private TextMeshProUGUI _readyText;
+		[SerializeField] private Button          _readyBtn;
+		[SerializeField] private TextMeshProUGUI _readyBtnText;
 
 		private RoomPlayerView _roomPlayerView;
 
-		public void SetRoomPlayerView(RoomPlayerView roomPlayerView)
+		public void Initialize(RoomPlayerView roomPlayerView)
 		{
 			_roomPlayerView = roomPlayerView;
 
-			_nameText.text  = _roomPlayerView.PlayerName;
-			_readyText.text = _roomPlayerView.IsReady ? "Ready" : "Not Ready";
+			if (!_roomPlayerView.isLocalPlayer)
+				_readyBtn.gameObject.SetActive(false);
 
 			_roomPlayerView.SubscribeOnPlayerNameChanged(OnPlayerNameChanged);
-			_roomPlayerView.SubscribeOnPlayerReadyChanged(OnPlayerReadyChanged);
+			_roomPlayerView.SubscribeOnReadyStatusChanged(OnReadyStatusChanged);
+
+			OnPlayerNameChanged(_roomPlayerView.PlayerName);
+			OnReadyStatusChanged(_roomPlayerView.IsReady);
 		}
 
-		private void OnPlayerNameChanged(string playerName) => _nameText.text = playerName;
+		private void OnPlayerNameChanged(string playerName)
+		{
+			_nameText.text = playerName;
+		}
 
-		private void OnPlayerReadyChanged(bool isReady) => _readyText.text = isReady ? "Ready" : "Not Ready";
+		private void OnReadyStatusChanged(bool isReady)
+		{
+			_readyBtnText.text = isReady ? "Cancel" : "Ready";
+			_readyText.text    = isReady ? "Ready" : "Not Ready";
+		}
+
+		public void Button_Ready() => _roomPlayerView.CmdSetReadyStatus();
 	}
 }

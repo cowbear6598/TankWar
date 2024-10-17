@@ -1,5 +1,4 @@
 ﻿using Core.Network.Common;
-using Core.Network.Infrastructure.Repositories;
 using MessagePipe;
 using Mirror;
 using UnityEngine;
@@ -10,15 +9,12 @@ namespace Core.Network.Infrastructure.Views
 {
 	public class CustomNetworkManager : NetworkManager
 	{
-		[Inject] private readonly IPublisher<OnServerConnected>   _onServerConnected;
-		[Inject] private readonly IPublisher<OnClientConnected>   _onClientConnected;
-		[Inject] private readonly IPublisher<OnRoomPlayerAdded>   _onRoomPlayerAdded;
-		[Inject] private readonly IPublisher<OnRoomPlayerRemoved> _onRoomPlayerRemoved;
+		[Inject] private readonly IPublisher<OnServerConnected> _onServerConnected;
+		[Inject] private readonly IPublisher<OnClientConnected> _onClientConnected;
 
 		[Inject] private readonly IObjectResolver _resolver;
 
-		[SerializeField] private RoomPlayerView       _roomPlayerPrefab;
-		[SerializeField] private RoomPlayerRepository _roomPlayerRepositoryPrefab;
+		[SerializeField] private GameObject _roomPlayerViewPrefab;
 
 		public static CustomNetworkManager Instance { get; private set; }
 
@@ -44,10 +40,6 @@ namespace Core.Network.Infrastructure.Views
 		{
 			Debug.Log("Server started");
 
-			var roomPlayerRepository = Instantiate(_roomPlayerRepositoryPrefab);
-
-			NetworkServer.Spawn(roomPlayerRepository.gameObject);
-
 			_onServerConnected.Publish(new OnServerConnected());
 		}
 
@@ -70,24 +62,14 @@ namespace Core.Network.Infrastructure.Views
 		{
 			Debug.Log("Player added");
 
-			var roomPlayer = Instantiate(_roomPlayerPrefab);
+			var roomPlayerView = Instantiate(_roomPlayerViewPrefab);
 
-			NetworkServer.AddPlayerForConnection(conn, roomPlayer.gameObject);
-
-			RoomPlayerRepository.Instance.Add(conn.connectionId, roomPlayer);
-
-			_onRoomPlayerAdded.Publish(new OnRoomPlayerAdded(roomPlayer));
+			NetworkServer.AddPlayerForConnection(conn, roomPlayerView);
 		}
 
 		public override void OnServerDisconnect(NetworkConnectionToClient conn)
 		{
-			Debug.Log("Player removed");
-
-			var roomPlayer = RoomPlayerRepository.Instance.Get(conn.connectionId);
-
-			RoomPlayerRepository.Instance.Remove(conn.connectionId);
-
-			_onRoomPlayerRemoved.Publish(new OnRoomPlayerRemoved(roomPlayer));
+			Debug.Log("Player disconnected");
 		}
 
 		public void InjectGameObject(GameObject gameObject) => _resolver.InjectGameObject(gameObject);

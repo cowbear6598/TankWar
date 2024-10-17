@@ -1,4 +1,5 @@
-﻿using MessagePipe;
+﻿using Core.Network.Infrastructure.Repositories;
+using MessagePipe;
 using SoapTools.SceneController.Application.Repository;
 using VContainer;
 using VContainer.Unity;
@@ -9,6 +10,8 @@ namespace Core.Unity.Main
 	{
 		protected override void Configure(IContainerBuilder builder)
 		{
+			builder.Register<RoomPlayerRepository>(Lifetime.Singleton);
+
 			RegisterUser(builder);
 			RegisterMessagePipe(builder);
 			RegisterScene(builder);

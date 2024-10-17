@@ -185,8 +185,7 @@ MonoBehaviour:
   autoCreatePlayer: 0
   playerSpawnMethod: 0
   spawnPrefabs:
-  - {fileID: 5228119593843198840, guid: 6b94598b73e042d47bf803c51a538f4e, type: 3}
-  - {fileID: 186038054469789534, guid: 96e0e6a1e32579e41a9c9300ca1ddb7c, type: 3}
+  - {fileID: 5874426005731882088, guid: 6b94598b73e042d47bf803c51a538f4e, type: 3}
   exceptionsDisconnect: 1
   snapshotSettings:
     bufferTimeMultiplier: 2
@@ -202,9 +201,7 @@ MonoBehaviour:
   evaluationMethod: 0
   evaluationInterval: 3
   timeInterpolationGui: 0
-  _roomPlayerPrefab: {fileID: 4547362775998406188, guid: 6b94598b73e042d47bf803c51a538f4e,
-    type: 3}
-  _roomPlayerRepositoryPrefab: {fileID: -2360511392105789103, guid: 96e0e6a1e32579e41a9c9300ca1ddb7c,
+  _roomPlayerViewPrefab: {fileID: 5874426005731882088, guid: 6b94598b73e042d47bf803c51a538f4e,
     type: 3}
 --- !u!114 &221543263
 MonoBehaviour:

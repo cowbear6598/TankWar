@@ -1,4 +1,5 @@
 ﻿using System;
+using Core.Network.Infrastructure.Repositories;
 using Core.User.Domain.Adapters;
 using Mirror;
 using VContainer;
@@ -7,43 +8,52 @@ namespace Core.Network.Infrastructure.Views
 {
 	public class RoomPlayerView : NetworkBehaviour
 	{
-		[SyncVar(hook = nameof(OnPlayerNameChanged))]  private string _playerName;
-		[SyncVar(hook = nameof(OnPlayerReadyChanged))] private bool   _isReady;
+		[Inject] private readonly IUser                _user;
+		[Inject] private readonly RoomPlayerRepository _roomPlayerRepository;
 
-		[Inject] private IUser _user;
+		[SyncVar(hook = nameof(OnPlayerNameChanged))]  public  string _playerName;
+		[SyncVar(hook = nameof(OnReadyStatusChanged))] private bool   _isReady;
 
-		private Action<string> _onPlayerNameChanged;
-		private Action<bool>   _onPlayerReadyChanged;
+		private Action<string> onPlayerNameChanged;
+		private Action<bool>   onReadyStatusChanged;
 
 		private void Start()
 		{
+			_roomPlayerRepository.Add(netId, this);
+
 			if (!isLocalPlayer)
 				return;
 
-			CustomNetworkManager.Instance.InjectGameObject(gameObject);
-
-			CmdSetName(_user.Name);
+			CmdSetPlayerName(_user.Name);
 		}
 
-		private void OnPlayerNameChanged(string _, string playerName) => _onPlayerNameChanged?.Invoke(playerName);
-		private void OnPlayerReadyChanged(bool  _, bool   isReady)    => _onPlayerReadyChanged?.Invoke(isReady);
-
-		[Command]
-		private void CmdSetName(string name)
+		private void OnDestroy()
 		{
-			_playerName = name;
+			_roomPlayerRepository.Remove(netId);
 		}
 
 		[Command]
-		public void CmdSetReady(bool isReady)
+		private void CmdSetPlayerName(string playerName)
 		{
-			_isReady = isReady;
+			_playerName = playerName;
 		}
+
+		[Command]
+		public void CmdSetReadyStatus()
+		{
+			_isReady = !_isReady;
+		}
+
+		private void OnPlayerNameChanged(string _, string playerName)
+			=> onPlayerNameChanged?.Invoke(playerName);
+
+		private void OnReadyStatusChanged(bool _, bool isReady)
+			=> onReadyStatusChanged?.Invoke(isReady);
+
+		public void SubscribeOnPlayerNameChanged(Action<string> action) => onPlayerNameChanged += action;
+		public void SubscribeOnReadyStatusChanged(Action<bool>  action) => onReadyStatusChanged += action;
 
 		public string PlayerName => _playerName;
 		public bool   IsReady    => _isReady;
-
-		public void SubscribeOnPlayerNameChanged(Action<string> onPlayerNameChanged)  => _onPlayerNameChanged += onPlayerNameChanged;
-		public void SubscribeOnPlayerReadyChanged(Action<bool>  onPlayerReadyChanged) => _onPlayerReadyChanged += onPlayerReadyChanged;
 	}
 }

@@ -5,17 +5,17 @@ namespace Core.Network.Common
 	public struct OnServerConnected { }
 	public struct OnClientConnected { }
 
-	public struct OnRoomPlayerAdded
+	public struct OnPlayerAdded
 	{
 		public readonly RoomPlayerView RoomPlayerView;
 
-		public OnRoomPlayerAdded(RoomPlayerView roomPlayerView) => RoomPlayerView = roomPlayerView;
+		public OnPlayerAdded(RoomPlayerView roomPlayerView) => RoomPlayerView = roomPlayerView;
 	}
 
-	public struct OnRoomPlayerRemoved
+	public struct OnPlayerRemoved
 	{
-		public readonly RoomPlayerView RoomPlayerView;
+		public readonly uint NetID;
 
-		public OnRoomPlayerRemoved(RoomPlayerView roomPlayerView) => RoomPlayerView = roomPlayerView;
+		public OnPlayerRemoved(uint netID) => NetID = netID;
 	}
 }

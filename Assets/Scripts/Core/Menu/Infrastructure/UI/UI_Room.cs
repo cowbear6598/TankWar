@@ -4,8 +4,8 @@ using Core.Menu.Common;
 using Core.Menu.Domain;
 using Core.Misc.UI;
 using Core.Network.Common;
-using Core.Network.Infrastructure.Views;
 using MessagePipe;
+using Mirror;
 using UnityEngine;
 using VContainer;
 
@@ -13,9 +13,8 @@ namespace Core.Menu.Infrastructure.UI
 {
 	public class UI_Room : UI_Panel
 	{
-		[Inject] private readonly ISubscriber<OnMenuStateChanged>  _onMenuStateChanged;
-		[Inject] private readonly ISubscriber<OnRoomPlayerAdded>   _onRoomPlayerAdded;
-		[Inject] private readonly ISubscriber<OnRoomPlayerRemoved> _onRoomPlayerRemoved;
+		[Inject] private readonly ISubscriber<OnMenuStateChanged> _onMenuStateChanged;
+		[Inject] private readonly ISubscriber<OnPlayerAdded>      _onPlayerAdded;
 
 		[SerializeField] private UI_RoomPlayer _uiRoomPlayerPrefab;
 		[SerializeField] private Transform     _roomPlayerParent;
@@ -29,30 +28,22 @@ namespace Core.Menu.Infrastructure.UI
 			var bag = DisposableBag.CreateBuilder();
 
 			_onMenuStateChanged.Subscribe(OnMenuStateChanged).AddTo(bag);
-			_onRoomPlayerAdded.Subscribe(OnRoomPlayerAdded).AddTo(bag);
-			_onRoomPlayerRemoved.Subscribe(OnRoomPlayerRemoved).AddTo(bag);
+			_onPlayerAdded.Subscribe(OnPlayerAdded).AddTo(bag);
 
 			_subscription = bag.Build();
 		}
 
 		private void OnDisable() => _subscription.Dispose();
 
-		private void OnRoomPlayerAdded(OnRoomPlayerAdded e)
-		{
-			var uiRoomPlayer = Instantiate(_uiRoomPlayerPrefab, _roomPlayerParent.transform);
+		#region 事件
 
-			uiRoomPlayer.SetRoomPlayerView(e.RoomPlayerView);
+		private void OnPlayerAdded(OnPlayerAdded e)
+		{
+			var uiRoomPlayer = Instantiate(_uiRoomPlayerPrefab, _roomPlayerParent);
+
+			uiRoomPlayer.Initialize(e.RoomPlayerView);
 
 			_uiRoomPlayers.Add(e.RoomPlayerView.netId, uiRoomPlayer);
-		}
-
-		private void OnRoomPlayerRemoved(OnRoomPlayerRemoved e)
-		{
-			var uiRoomPlayer = _uiRoomPlayers[e.RoomPlayerView.netId];
-
-			_uiRoomPlayers.Remove(e.RoomPlayerView.netId);
-
-			Destroy(uiRoomPlayer.gameObject);
 		}
 
 		private void OnMenuStateChanged(OnMenuStateChanged e)
@@ -62,5 +53,7 @@ namespace Core.Menu.Infrastructure.UI
 			else if (e.State == MenuState.Room)
 				Show();
 		}
+
+		#endregion
 	}
 }

@@ -1,34 +1,30 @@
 ﻿using System.Collections.Generic;
 using Core.Network.Common;
 using Core.Network.Infrastructure.Views;
-using Mirror;
+using MessagePipe;
+using VContainer;
 
 namespace Core.Network.Infrastructure.Repositories
 {
-	public class RoomPlayerRepository : NetworkBehaviour
+	public class RoomPlayerRepository
 	{
-		public static RoomPlayerRepository Instance { get; private set; }
+		[Inject] private readonly IPublisher<OnPlayerAdded>   _onPlayerAdded;
+		[Inject] private readonly IPublisher<OnPlayerRemoved> _onPlayerRemoved;
 
-		private readonly SyncDictionary<int, RoomPlayerView> _roomPlayers = new();
+		private readonly Dictionary<uint, RoomPlayerView> _roomPlayers = new();
 
-		private void Awake()
+		public void Add(uint netID, RoomPlayerView roomPlayerView)
 		{
-			Instance = this;
+			_roomPlayers.Add(netID, roomPlayerView);
+
+			_onPlayerAdded.Publish(new OnPlayerAdded(roomPlayerView));
 		}
 
-		public void Add(int connectionID, RoomPlayerView roomPlayer)
+		public void Remove(uint netID)
 		{
-			_roomPlayers.TryAdd(connectionID, roomPlayer);
+			_roomPlayers.Remove(netID);
+
+			_onPlayerRemoved.Publish(new OnPlayerRemoved(netID));
 		}
-
-		public void Remove(int connectionID)
-		{
-			if (_roomPlayers.TryGetValue(connectionID, out var roomPlayer))
-				NetworkServer.Destroy(roomPlayer.gameObject);
-
-			_roomPlayers.Remove(connectionID);
-		}
-
-		public RoomPlayerView Get(int connectionID) => _roomPlayers[connectionID];
 	}
 }
