@@ -11,7 +11,8 @@ namespace Core.Network.Infrastructure.Views
 		[Inject] private readonly IUser                _user;
 		[Inject] private readonly RoomPlayerRepository _roomPlayerRepository;
 
-		[SyncVar(hook = nameof(OnPlayerNameChanged))]  public  string _playerName;
+		[SyncVar]                                      private int    _connectionID;
+		[SyncVar(hook = nameof(OnPlayerNameChanged))]  private string _playerName;
 		[SyncVar(hook = nameof(OnReadyStatusChanged))] private bool   _isReady;
 
 		private Action<string> onPlayerNameChanged;
@@ -19,7 +20,7 @@ namespace Core.Network.Infrastructure.Views
 
 		private void Start()
 		{
-			_roomPlayerRepository.Add(netId, this);
+			_roomPlayerRepository.Add(_connectionID, this);
 
 			if (!isLocalPlayer)
 				return;
@@ -29,8 +30,10 @@ namespace Core.Network.Infrastructure.Views
 
 		private void OnDestroy()
 		{
-			_roomPlayerRepository.Remove(netId);
+			_roomPlayerRepository.Remove(_connectionID);
 		}
+
+		public void SetConnectionID(int connectionID) => _connectionID = connectionID;
 
 		[Command]
 		private void CmdSetPlayerName(string playerName)

@@ -7,15 +7,20 @@ namespace Core.Network.Common
 
 	public struct OnPlayerAdded
 	{
+		public readonly int            ConnectionID;
 		public readonly RoomPlayerView RoomPlayerView;
 
-		public OnPlayerAdded(RoomPlayerView roomPlayerView) => RoomPlayerView = roomPlayerView;
+		public OnPlayerAdded(int connectionID, RoomPlayerView roomPlayerView)
+		{
+			ConnectionID   = connectionID;
+			RoomPlayerView = roomPlayerView;
+		}
 	}
 
 	public struct OnPlayerRemoved
 	{
-		public readonly uint NetID;
+		public readonly int ConnectionID;
 
-		public OnPlayerRemoved(uint netID) => NetID = netID;
+		public OnPlayerRemoved(int connectionID) => ConnectionID = connectionID;
 	}
 }

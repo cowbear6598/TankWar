@@ -201,7 +201,7 @@ MonoBehaviour:
   evaluationMethod: 0
   evaluationInterval: 3
   timeInterpolationGui: 0
-  _roomPlayerViewPrefab: {fileID: 5874426005731882088, guid: 6b94598b73e042d47bf803c51a538f4e,
+  _roomPlayerViewPrefab: {fileID: 5717746277139524102, guid: 6b94598b73e042d47bf803c51a538f4e,
     type: 3}
 --- !u!114 &221543263
 MonoBehaviour:

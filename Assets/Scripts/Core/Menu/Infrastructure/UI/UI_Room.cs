@@ -5,7 +5,6 @@ using Core.Menu.Domain;
 using Core.Misc.UI;
 using Core.Network.Common;
 using MessagePipe;
-using Mirror;
 using UnityEngine;
 using VContainer;
 
@@ -15,11 +14,12 @@ namespace Core.Menu.Infrastructure.UI
 	{
 		[Inject] private readonly ISubscriber<OnMenuStateChanged> _onMenuStateChanged;
 		[Inject] private readonly ISubscriber<OnPlayerAdded>      _onPlayerAdded;
+		[Inject] private readonly ISubscriber<OnPlayerRemoved>    _onPlayerRemoved;
 
 		[SerializeField] private UI_RoomPlayer _uiRoomPlayerPrefab;
 		[SerializeField] private Transform     _roomPlayerParent;
 
-		private readonly Dictionary<uint, UI_RoomPlayer> _uiRoomPlayers = new();
+		private readonly Dictionary<int, UI_RoomPlayer> _uiRoomPlayers = new();
 
 		private IDisposable _subscription;
 
@@ -29,6 +29,7 @@ namespace Core.Menu.Infrastructure.UI
 
 			_onMenuStateChanged.Subscribe(OnMenuStateChanged).AddTo(bag);
 			_onPlayerAdded.Subscribe(OnPlayerAdded).AddTo(bag);
+			_onPlayerRemoved.Subscribe(OnPlayerRemoved).AddTo(bag);
 
 			_subscription = bag.Build();
 		}
@@ -43,7 +44,16 @@ namespace Core.Menu.Infrastructure.UI
 
 			uiRoomPlayer.Initialize(e.RoomPlayerView);
 
-			_uiRoomPlayers.Add(e.RoomPlayerView.netId, uiRoomPlayer);
+			_uiRoomPlayers.Add(e.ConnectionID, uiRoomPlayer);
+		}
+
+		private void OnPlayerRemoved(OnPlayerRemoved e)
+		{
+			if (!_uiRoomPlayers.TryGetValue(e.ConnectionID, out var uiRoomPlayer))
+				return;
+
+			Destroy(uiRoomPlayer.gameObject);
+			_uiRoomPlayers.Remove(e.ConnectionID);
 		}
 
 		private void OnMenuStateChanged(OnMenuStateChanged e)

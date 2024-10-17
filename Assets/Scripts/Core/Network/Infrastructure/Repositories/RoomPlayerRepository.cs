@@ -2,6 +2,7 @@
 using Core.Network.Common;
 using Core.Network.Infrastructure.Views;
 using MessagePipe;
+using Mirror;
 using VContainer;
 
 namespace Core.Network.Infrastructure.Repositories
@@ -11,20 +12,27 @@ namespace Core.Network.Infrastructure.Repositories
 		[Inject] private readonly IPublisher<OnPlayerAdded>   _onPlayerAdded;
 		[Inject] private readonly IPublisher<OnPlayerRemoved> _onPlayerRemoved;
 
-		private readonly Dictionary<uint, RoomPlayerView> _roomPlayers = new();
+		private readonly Dictionary<int, RoomPlayerView> _roomPlayers = new();
 
-		public void Add(uint netID, RoomPlayerView roomPlayerView)
+		public void Add(int connectionID, RoomPlayerView roomPlayerView)
 		{
-			_roomPlayers.Add(netID, roomPlayerView);
+			_roomPlayers.Add(connectionID, roomPlayerView);
 
-			_onPlayerAdded.Publish(new OnPlayerAdded(roomPlayerView));
+			_onPlayerAdded.Publish(new OnPlayerAdded(connectionID, roomPlayerView));
 		}
 
-		public void Remove(uint netID)
+		public void Remove(int connectionID)
 		{
-			_roomPlayers.Remove(netID);
+			_roomPlayers.Remove(connectionID);
 
-			_onPlayerRemoved.Publish(new OnPlayerRemoved(netID));
+			_onPlayerRemoved.Publish(new OnPlayerRemoved(connectionID));
+		}
+
+		public void Destroy(int connectionID)
+		{
+			var roomPlayerView = _roomPlayers[connectionID];
+
+			NetworkServer.Destroy(roomPlayerView.gameObject);
 		}
 	}
 }

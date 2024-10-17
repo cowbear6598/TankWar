@@ -1,9 +1,9 @@
 ﻿using Core.Network.Common;
+using Core.Network.Infrastructure.Repositories;
 using MessagePipe;
 using Mirror;
 using UnityEngine;
 using VContainer;
-using VContainer.Unity;
 
 namespace Core.Network.Infrastructure.Views
 {
@@ -12,9 +12,9 @@ namespace Core.Network.Infrastructure.Views
 		[Inject] private readonly IPublisher<OnServerConnected> _onServerConnected;
 		[Inject] private readonly IPublisher<OnClientConnected> _onClientConnected;
 
-		[Inject] private readonly IObjectResolver _resolver;
+		[Inject] private readonly RoomPlayerRepository _roomPlayerRepository;
 
-		[SerializeField] private GameObject _roomPlayerViewPrefab;
+		[SerializeField] private RoomPlayerView _roomPlayerViewPrefab;
 
 		public static CustomNetworkManager Instance { get; private set; }
 
@@ -63,15 +63,16 @@ namespace Core.Network.Infrastructure.Views
 			Debug.Log("Player added");
 
 			var roomPlayerView = Instantiate(_roomPlayerViewPrefab);
+			roomPlayerView.SetConnectionID(conn.connectionId);
 
-			NetworkServer.AddPlayerForConnection(conn, roomPlayerView);
+			NetworkServer.AddPlayerForConnection(conn, roomPlayerView.gameObject);
 		}
 
 		public override void OnServerDisconnect(NetworkConnectionToClient conn)
 		{
 			Debug.Log("Player disconnected");
-		}
 
-		public void InjectGameObject(GameObject gameObject) => _resolver.InjectGameObject(gameObject);
+			_roomPlayerRepository.Destroy(conn.connectionId);
+		}
 	}
 }
