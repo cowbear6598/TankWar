@@ -5,13 +5,16 @@ using Core.Network.Common;
 using Core.Network.Infrastructure.Repositories;
 using MessagePipe;
 using Mirror;
+using SoapTools.SceneController.Application.Repository;
+using SoapTools.SceneController.Infrastructure;
 using UniRx;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using VContainer;
 
 namespace Core.Menu.Infrastructure.Views
 {
-	public class MenuManager : NetworkBehaviour
+	public class LobbyController : NetworkBehaviour
 	{
 		[Inject] private readonly IPublisher<OnCountdownStarted>          _onCountdownStarted;
 		[Inject] private readonly IPublisher<OnCountdownChanged>          _onCountdownChanged;
@@ -19,6 +22,9 @@ namespace Core.Menu.Infrastructure.Views
 		[Inject] private readonly ISubscriber<OnPlayerReadyStatusChanged> _onPlayerReadyStatusChanged;
 
 		[Inject] private readonly RoomPlayerRepository _roomPlayerRepository;
+		[Inject] private readonly SceneRepository      _sceneRepository;
+
+		[SerializeField] private AssetReference gameScene;
 
 		private IDisposable _subscription;
 		private IDisposable _countdownTimer;
@@ -36,11 +42,11 @@ namespace Core.Menu.Infrastructure.Views
 
 			var isAllReady = roomPlayerViews.All(x => x.IsReady);
 
-			if (isAllReady && !_isCountdownStarted)
+			if (isAllReady && !_isCountdownStarted) // 所有玩家準備好了，且倒數尚未開始
 			{
 				CountdownStart();
 			}
-			else if (!isAllReady && _isCountdownStarted)
+			else if (!isAllReady && _isCountdownStarted) // 有玩家尚未準備好，且倒數已經開始
 			{
 				CountdownStop();
 			}
@@ -54,7 +60,16 @@ namespace Core.Menu.Infrastructure.Views
 				return;
 
 			_countdownTimer?.Dispose();
-			Debug.Log("Game Start");
+
+			GameStart();
+		}
+
+		private async void LoadGameScene()
+		{
+			await new SceneControllerBuilder(_sceneRepository)
+			      .UnloadAllScenes()
+			      .LoadScene(gameScene)
+			      .Execute();
 		}
 
 		#region Network Event
@@ -62,7 +77,7 @@ namespace Core.Menu.Infrastructure.Views
 		[Server]
 		private void CountdownStart()
 		{
-			_countdown = 10;
+			_countdown = 2;
 
 			_isCountdownStarted = true;
 
@@ -84,16 +99,38 @@ namespace Core.Menu.Infrastructure.Views
 			RpcOnCountdownStopped();
 		}
 
+		[Server]
+		private void GameStart()
+		{
+			LoadGameScene();
+			RpcGameStart();
+		}
+
 		[ClientRpc]
 		private void RpcOnCountdownStarted()
 		{
+			if (NetworkServer.active)
+				return;
+
 			_onCountdownStarted.Publish(new OnCountdownStarted());
 		}
 
 		[ClientRpc]
 		private void RpcOnCountdownStopped()
 		{
+			if (NetworkServer.active)
+				return;
+
 			_onCountdownStopped.Publish(new OnCountdownStopped());
+		}
+
+		[ClientRpc]
+		private void RpcGameStart()
+		{
+			if (NetworkServer.active)
+				return;
+
+			LoadGameScene();
 		}
 
 		private void OnCountdownChanged(int _, int countdown)

@@ -2,12 +2,15 @@
     "name": "Core.Menu",
     "rootNamespace": "",
     "references": [
+        "GUID:84651a3751eca9349aac36a66bba901b",
+        "GUID:9e24947de15b9834991c9d8411ea37cf",
         "GUID:b0214a6008ed146ff8f122a6a9c2f6cc",
         "GUID:6055be8ebefd69e48b49212b09b47b2f",
         "GUID:08b38f39e2d9e594389b7a4cf4c2c338",
         "GUID:f51ebe6a0ceec4240a699833d6309b23",
         "GUID:560b04d1a97f54a4e82edc0cbbb69285",
         "GUID:30817c1a0e6d646d99c048fc403f5979",
+        "GUID:300d5d73270197e4c9764aa64b27c31b",
         "GUID:b9f272e429829654c96c7535f85614dd",
         "GUID:552c73e6002a87b4995cdd71bdb4f1c8",
         "GUID:8fce4da97a6f2424abdd7a36bc71ade9"

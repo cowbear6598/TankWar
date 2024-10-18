@@ -1293,7 +1293,7 @@ GameObject:
   - component: {fileID: 724409583}
   - component: {fileID: 724409582}
   m_Layer: 0
-  m_Name: MenuManager
+  m_Name: LobbyController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1346,6 +1346,11 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  gameScene:
+    m_AssetGUID: 99c9720ab356a0642a771bea13969a05
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
 --- !u!1 &837469085
 GameObject:
   m_ObjectHideFlags: 0

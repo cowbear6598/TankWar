@@ -21,6 +21,7 @@ namespace Core.Unity.Main
 		private async void Start()
 		{
 			await new SceneControllerBuilder(_sceneRepository)
+			      .UnloadAllScenes()
 			      .LoadScene(_menuScene)
 			      .Execute();
 

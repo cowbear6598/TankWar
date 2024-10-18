@@ -2,7 +2,6 @@
 using Core.Menu.Common;
 using Core.Network.Common;
 using MessagePipe;
-using Mirror;
 using VContainer;
 using VContainer.Unity;
 
